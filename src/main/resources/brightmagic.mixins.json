@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.deechael.fabric.brightmagic.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EntityMixin",
+    "ServerPlayerEntityMixin"
+  ],
+  "client": [
+    "client.InGameHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,31 @@
+{
+    "brightmagic.messages.mananotenough": "Your mana is not enough!",
+    "brightmagic.messages.noelement": "You don't have the element which is allowed to use this magic skill!",
+    "brightmagic.messages.elementmaxed": "You have reached the limit of unlocking elements!",
+    "brightmagic.messages.elementunlocked": "You have unlocked this element!",
+    "brightmagic.messages.unlockedelement": "You unlocked element: ",
+
+    "item.brightmagic.healing_wand": "Healing Wand",
+    "item.brightmagic.resonance_wand": "Resonance Wand",
+    "item.brightmagic.final_wand": "Final Wand",
+
+    "brightmagic.gui.element.title": "Elements",
+    "brightmagic.gui.element.button.previous": "Previous Page",
+    "brightmagic.gui.element.button.next": "Next Page",
+
+    "brightmagic.lore.wandskill": "Skill: ",
+    "brightmagic.lore.wandelement": "Element: ",
+    "brightmagic.lore.elementunlocker": "Use to unlock element: ",
+
+    "magic.brightmagic.none_heal": "Heal",
+    "magic.brightmagic.hydro_resonance": "Resonance",
+
+    "magic.element.brightmagic.pyro": "Pyro",
+    "magic.element.brightmagic.hydro": "Hydro",
+    "magic.element.brightmagic.cryo": "Cryo",
+    "magic.element.brightmagic.electro": "Electro",
+    "magic.element.brightmagic.anemo": "Anemo",
+    "magic.element.brightmagic.geo": "Geo",
+    "magic.element.brightmagic.hikari": "Hikari",
+    "magic.element.brightmagic.dark": "Dark"
+}

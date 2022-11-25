@@ -1,35 +1,35 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "brightmagic",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Bright Magic",
+  "description": "A brand-new magic mod for high version fabric Minecraft",
   "authors": [
     "DeeChael"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/DeeChael/BrightMagic",
+    "sources": "https://github.com/DeeChael/BrightMagic"
   },
 
   "license": "GNU General Public License v3.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/brightmagic/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.deechael.fabric.example.ExampleMod"
+      "net.deechael.fabric.brightmagic.BrightMagicMod"
     ],
     "client": [
-      "net.fabricmc.fabric.example.ExampleModClient"
+      "net.deechael.fabric.brightmagic.BrightMagicModClient"
     ],
     "modmenu": [
-      "net.deechael.fabric.example.ExampleModMenuIntegration"
+      "net.deechael.fabric.brightmagic.BrightMagicModMenuIntegration"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "brightmagic.mixins.json"
   ],
 
   "depends": {

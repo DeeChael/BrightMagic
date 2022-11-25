@@ -1,5 +1,2 @@
-# Fabric Mod Example
-
-## Setup
-
-Just use this repository as template, and pull to your machine then open build.gradle as project with IntelliJ IDEA!
+# Bright Magic
+A brand-new magic mod for high version fabric Minecraft 
