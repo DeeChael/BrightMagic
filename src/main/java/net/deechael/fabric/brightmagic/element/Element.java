@@ -21,7 +21,8 @@ public interface Element {
 
     static void register(Element element) {
         ElementManager.elements.put(element.getId(), element);
-        ElementManager.reactionRelations.put(element.getId(), new ArrayList<>());
+        if (!ElementManager.reactionRelations.containsKey(element.getId()))
+            ElementManager.reactionRelations.put(element.getId(), new ArrayList<>());
     }
 
     static Element get(Identifier identifier) {
@@ -40,6 +41,10 @@ public interface Element {
 
     static ElementReaction getReaction(Identifier identifier) {
         return ElementManager.reactions.get(identifier);
+    }
+
+    static List<ElementReaction> getAllReactions() {
+        return new ArrayList<>(ElementManager.reactions.values());
     }
 
     static List<ElementReaction> availableReactions(Element element) {

@@ -3,10 +3,8 @@ package net.deechael.fabric.brightmagic.registry.client;
 import net.deechael.fabric.brightmagic.gui.ElementScreen;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import org.lwjgl.glfw.GLFW;
 
 public class BrightMagicKeyBindings {

@@ -1,8 +1,12 @@
 package net.deechael.fabric.brightmagic.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.deechael.fabric.brightmagic.element.Element;
-import net.deechael.fabric.brightmagic.element.ElementType;
+import net.deechael.fabric.brightmagic.element.ElementData;
+import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
+import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
@@ -10,7 +14,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ElementScreen extends Screen {
 
@@ -18,16 +24,9 @@ public class ElementScreen extends Screen {
 
     private final Screen parent;
 
-    private TexturedButtonWidget pyro;
-    private TexturedButtonWidget hydro;
-    private TexturedButtonWidget electro;
-    private TexturedButtonWidget cryo;
-    private TexturedButtonWidget anemo;
-    private TexturedButtonWidget geo;
-    private TexturedButtonWidget hikari;
-    private TexturedButtonWidget dark;
-
     private final List<TexturedButtonWidget> texturedButtonWidgets = new ArrayList<>();
+
+    private final Map<TexturedButtonWidget, Element> elementMap = new HashMap<>();
 
     private ButtonWidget previousPage;
     private ButtonWidget nextPage;
@@ -45,6 +44,9 @@ public class ElementScreen extends Screen {
 
     @Override
     protected void init() {
+        this.texturedButtonWidgets.clear();
+        this.elementMap.clear();
+
         int left = (this.width - (16 * 7)) / 2;
         int top = (this.height - (16 * 7)) / 2;
 
@@ -58,7 +60,9 @@ public class ElementScreen extends Screen {
             int j = i - (page - 1) * 12;
             int x = left + ((j % 4) * 32);
             int y = top + ((j / 4) * 32);
-            this.texturedButtonWidgets.add(this.addDrawableChild(texture(elements[i], x, y)));
+            TexturedButtonWidget texturedButtonWidget = this.addDrawableChild(texture(elements[i], x, y));
+            this.texturedButtonWidgets.add(texturedButtonWidget);
+            this.elementMap.put(texturedButtonWidget, elements[i]);
         }
         this.previousPage = this.addDrawableChild(new ButtonWidget(left, top + 96, 16, 16, Text.literal("<"), button -> {
             this.page -= 1;
@@ -88,6 +92,13 @@ public class ElementScreen extends Screen {
         this.renderBackground(matrices);
         for (TexturedButtonWidget texturedButtonWidget : this.texturedButtonWidgets) {
             texturedButtonWidget.render(matrices, mouseX, mouseY, delta);
+            Element element = this.elementMap.get(texturedButtonWidget);
+            if (this.client == null)
+                continue;
+            if (!ElementData.isUnlocked((IDataHolder) this.client.player, element)) {
+                RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_DENY);
+                DrawableHelper.drawTexture(matrices, texturedButtonWidget.x, texturedButtonWidget.y, 0, 0, 16, 16, 16, 16);
+            }
         }
         this.previousPage.render(matrices, mouseX, mouseY, delta);
         this.nextPage.render(matrices, mouseX, mouseY, delta);

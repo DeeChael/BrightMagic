@@ -1,6 +1,5 @@
 package net.deechael.fabric.brightmagic.element;
 
-import com.mojang.datafixers.kinds.Const;
 import net.deechael.fabric.brightmagic.Constants;
 import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
 import net.minecraft.util.Formatting;

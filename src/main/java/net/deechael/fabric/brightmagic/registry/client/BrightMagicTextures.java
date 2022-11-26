@@ -4,7 +4,8 @@ import net.minecraft.util.Identifier;
 
 public class BrightMagicTextures {
 
-    public static final Identifier ICONS = new Identifier("brightmagic:textures/gui/icons.png");
+    public static final Identifier GUI_ICONS = new Identifier("brightmagic:textures/gui/icons.png");
+    public static final Identifier GUI_DENY = new Identifier("brightmagic:textures/gui/deny.png");
 
     public static final Identifier SKILL_NONE_HEAL = new Identifier("brightmagic:textures/skill/none/heal.png");
 

@@ -5,7 +5,6 @@ import net.deechael.fabric.brightmagic.basic.BasicWandItem;
 import net.deechael.fabric.brightmagic.basic.ElementUnlockItem;
 import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.element.ElementType;
-import net.deechael.fabric.brightmagic.skill.SkillRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -15,10 +14,10 @@ public final class BrightMagicItems {
 
     // Limited Skill
     // None Element
-    public final static Item HEALING_WAND = register("healing_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[0], SkillRegistry.HEAL, 10, 5, 0));
+    public final static Item HEALING_WAND = register("healing_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[0], BrightMagicSkills.HEAL, 10, 5, 0));
 
     // Hydro Element
-    public final static Item RESONANCE_WAND = register("resonance_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[] {ElementType.HYDRO}, SkillRegistry.RESONANCE, 20, 10, 5));
+    public final static Item RESONANCE_WAND = register("resonance_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[] {ElementType.HYDRO}, BrightMagicSkills.RESONANCE, 20, 10, 5));
 
 
     // Skill unlimited
@@ -28,6 +27,8 @@ public final class BrightMagicItems {
     // Items to unlock elements
     public final static Item FIRE_IN_ICE = register("fire_in_ice", new ElementUnlockItem(new Item.Settings().maxCount(1).group(ItemGroup.MATERIALS), ElementType.PYRO));
     public final static Item HEART_OF_WATER = register("heart_of_water", new ElementUnlockItem(new Item.Settings().maxCount(1).group(ItemGroup.MATERIALS), ElementType.HYDRO));
+    public final static Item ELECTRO_SHARP = register("electro_sharp", new ElementUnlockItem(new Item.Settings().maxCount(1).group(ItemGroup.MATERIALS), ElementType.ELECTRO));
+    public final static Item ICY_SWORD = register("icy_sword", new ElementUnlockItem(new Item.Settings().maxCount(1).group(ItemGroup.MATERIALS), ElementType.CRYO));
 
     public static void init() {}
 

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BGB",
+    "GHG",
+    "BGB"
+  ],
+  "key": {
+    "H": {
+      "tag": "minecraft:heart_of_the_sea"
+    },
+    "G": {
+      "tag": "minecraft:gold_ingot"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "result": {
+    "item": "brightmagic:heart_of_water"
+  }
+}

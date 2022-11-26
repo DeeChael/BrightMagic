@@ -10,25 +10,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class OverloadedReaction extends ElementReaction {
+public class ElectroChargedReaction extends ElementReaction {
 
-    public OverloadedReaction() {
-        super(Identifier.of(Constants.MOD_ID, "overloaded"), ElementType.PYRO, ElementType.ELECTRO);
+    public ElectroChargedReaction() {
+        super(Identifier.of(Constants.MOD_ID, "electro-charged"), ElementType.ELECTRO, ElementType.HYDRO);
     }
 
     @Override
     public void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill) {
         if (skill instanceof DamageableSkill damageableSkill) {
             double damage = damageableSkill.getDamage(world, entity);
-            damageableSkill.use(world, entity, itemStack, damage * 2d);
+            damageableSkill.use(world, entity, itemStack, damage * 1.5d);
         } else {
-            entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 10);
+            entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 4);
         }
     }
 
     @Override
     public void react(World world, LivingEntity entity) {
-        entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 10);
+        entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 4);
     }
 
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "DID",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "tag": "minecraft:diamond"
+    },
+    "I": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "result": {
+    "item": "brightmagic:icy_sword"
+  }
+}

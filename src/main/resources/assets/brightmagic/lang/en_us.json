@@ -8,6 +8,10 @@
     "item.brightmagic.healing_wand": "Healing Wand",
     "item.brightmagic.resonance_wand": "Resonance Wand",
     "item.brightmagic.final_wand": "Final Wand",
+    "item.brightmagic.fire_in_ice": "Fire In Ice",
+    "item.brightmagic.heart_of_water": "Heart Of Water",
+    "item.brightmagic.electro_sharp": "Electro Sharp",
+    "item.brightmagic.icy_sword": "Icy Sword",
 
     "brightmagic.gui.element.title": "Elements",
     "brightmagic.gui.element.button.previous": "Previous Page",
@@ -27,5 +31,8 @@
     "magic.element.brightmagic.anemo": "Anemo",
     "magic.element.brightmagic.geo": "Geo",
     "magic.element.brightmagic.hikari": "Hikari",
-    "magic.element.brightmagic.dark": "Dark"
+    "magic.element.brightmagic.dark": "Dark",
+
+    "category.brightmagic": "Bright Magic",
+    "key.brightmagic.openElements": "Open Elements GUI"
 }

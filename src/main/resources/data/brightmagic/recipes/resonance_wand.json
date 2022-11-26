@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "H",
+    "D",
+    "D"
+  ],
+  "key": {
+    "H": {
+      "item": "brightmagic:heart_of_water"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "brightmagic:resonance_wand"
+  }
+}

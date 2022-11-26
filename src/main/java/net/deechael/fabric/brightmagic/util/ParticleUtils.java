@@ -10,7 +10,7 @@ public final class ParticleUtils {
         double x = position.x;
         double y = position.y;
         double z = position.z;
-        for (int i = 0; i <= 45; i++) {
+        for (int i = 0; i <= 90; i++) {
             double radians = Math.toRadians(i);
             double x0 = Math.cos(radians) * radius;
             double z0 = Math.sin(radians) * radius;
@@ -18,10 +18,6 @@ public final class ParticleUtils {
             world.addParticle(particleEffect, x + x0, y, z - z0, 0, 0, 0);
             world.addParticle(particleEffect, x - x0, y, z + z0, 0, 0, 0);
             world.addParticle(particleEffect, x - x0, y, z - z0, 0, 0, 0);
-            world.addParticle(particleEffect, x + z0, y, z + x0, 0, 0, 0);
-            world.addParticle(particleEffect, x + z0, y, z - x0, 0, 0, 0);
-            world.addParticle(particleEffect, x - z0, y, z + x0, 0, 0, 0);
-            world.addParticle(particleEffect, x - z0, y, z - x0, 0, 0, 0);
         }
     }
 
@@ -29,18 +25,14 @@ public final class ParticleUtils {
         double x = position.x;
         double y = position.y;
         double z = position.z;
-        for (int i = 0; i <= 45; i++) {
+        for (int i = 0; i <= 90; i++) {
             double radians = Math.toRadians(i);
             double x0 = Math.cos(radians) * radius;
             double z0 = Math.sin(radians) * radius;
-            world.addParticle(particleEffect, x + x0, y, z + z0, 0, 0, 0);
-            world.addParticle(particleEffect, x + x0, y, z - z0, 0, 0, 0);
-            world.addParticle(particleEffect, x - x0, y, z + z0, 0, 0, 0);
-            world.addParticle(particleEffect, x - x0, y, z - z0, 0, 0, 0);
-            world.addParticle(particleEffect, x + z0, y, z + x0, 0, 0, 0);
-            world.addParticle(particleEffect, x + z0, y, z - x0, 0, 0, 0);
-            world.addParticle(particleEffect, x - z0, y, z + x0, 0, 0, 0);
-            world.addParticle(particleEffect, x - z0, y, z - x0, 0, 0, 0);
+            world.addImportantParticle(particleEffect, x + x0, y, z + z0, 0, 0, 0);
+            world.addImportantParticle(particleEffect, x + x0, y, z - z0, 0, 0, 0);
+            world.addImportantParticle(particleEffect, x - x0, y, z + z0, 0, 0, 0);
+            world.addImportantParticle(particleEffect, x - x0, y, z - z0, 0, 0, 0);
         }
     }
 

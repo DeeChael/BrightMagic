@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IOI",
+    "OBO",
+    "IOI"
+  ],
+  "key": {
+    "O": {
+      "tag": "minecraft:obsidian"
+    },
+    "B": {
+      "tag": "minecraft:blaze_powder"
+    },
+    "I": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "result": {
+    "item": "brightmagic:fire_in_ice"
+  }
+}

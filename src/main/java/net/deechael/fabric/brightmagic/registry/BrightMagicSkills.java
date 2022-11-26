@@ -1,9 +1,10 @@
-package net.deechael.fabric.brightmagic.skill;
+package net.deechael.fabric.brightmagic.registry;
 
+import net.deechael.fabric.brightmagic.skill.Skill;
 import net.deechael.fabric.brightmagic.skill.defaults.HealSkill;
 import net.deechael.fabric.brightmagic.skill.defaults.ResonanceSkill;
 
-public final class SkillRegistry {
+public final class BrightMagicSkills {
 
     public final static Skill HEAL;
 
@@ -12,6 +13,9 @@ public final class SkillRegistry {
     static {
         HEAL = new HealSkill();
         RESONANCE = new ResonanceSkill();
+    }
+
+    public static void init() {
     }
 
 }

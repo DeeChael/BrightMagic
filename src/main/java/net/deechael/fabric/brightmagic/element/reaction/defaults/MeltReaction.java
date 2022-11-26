@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class OverloadedReaction extends ElementReaction {
+public class MeltReaction extends ElementReaction {
 
-    public OverloadedReaction() {
-        super(Identifier.of(Constants.MOD_ID, "overloaded"), ElementType.PYRO, ElementType.ELECTRO);
+    public MeltReaction() {
+        super(Identifier.of(Constants.MOD_ID, "melt"), ElementType.PYRO, ElementType.CRYO);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class OverloadedReaction extends ElementReaction {
 
     @Override
     public void react(World world, LivingEntity entity) {
-        entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 10);
+        entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 2);
     }
 
 }

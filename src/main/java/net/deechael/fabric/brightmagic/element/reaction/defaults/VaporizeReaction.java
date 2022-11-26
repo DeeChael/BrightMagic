@@ -5,7 +5,7 @@ import net.deechael.fabric.brightmagic.element.ElementType;
 import net.deechael.fabric.brightmagic.element.reaction.ElementReaction;
 import net.deechael.fabric.brightmagic.skill.DamageableSkill;
 import net.deechael.fabric.brightmagic.skill.Skill;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -17,7 +17,7 @@ public class VaporizeReaction extends ElementReaction {
     }
 
     @Override
-    public void react(World world, Entity entity, ItemStack itemStack, Skill skill) {
+    public void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill) {
         if (skill instanceof DamageableSkill damageableSkill) {
             double damage = damageableSkill.getDamage(world, entity);
             damageableSkill.use(world, entity, itemStack, damage * 1.5d);
@@ -25,7 +25,7 @@ public class VaporizeReaction extends ElementReaction {
     }
 
     @Override
-    public void react(World world, Entity entity) {
+    public void react(World world, LivingEntity entity) {
 
     }
 

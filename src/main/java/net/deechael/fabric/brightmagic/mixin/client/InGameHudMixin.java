@@ -20,10 +20,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.List;
 
@@ -48,14 +47,6 @@ public abstract class InGameHudMixin {
             index = 3)
     private int renderHealth(int y) {
         // Move health bar up 6
-        return y - 6;
-    }
-
-    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"),
-            index = 2)
-    private int renderStatusBars(int y) {
-        // Move hunger, armor, air bar up 6
         return y - 6;
     }
 
@@ -85,6 +76,22 @@ public abstract class InGameHudMixin {
         return y - 6;
     }
 
+    @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
+    private int modifyHeldItemTooltip(int y) {
+        return y - 6;
+    }
+
+    @ModifyVariable(method = "renderStatusBars", at = @At(value = "STORE"), ordinal = 5)
+    private int modifyStatusBars(int value) {
+        return value - 6;
+    }
+
+    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V", ordinal = 0), index = 1)
+    private double modifyActionbar(double value) {
+        return value - 6;
+    }
+
+
     @Inject(method = "renderMountJumpBar", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
         if (this.getCameraPlayer().isCreative())
@@ -93,7 +100,7 @@ public abstract class InGameHudMixin {
         IDataHolder dataHolder = (IDataHolder) this.getCameraPlayer();
         int currentMana = ManaData.getMana(dataHolder);
         int maxMana = ManaData.getMaxMana(dataHolder);
-        RenderSystem.setShaderTexture(0, BrightMagicTextures.ICONS);
+        RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_ICONS);
         int l = this.scaledHeight - 32 + 3;
         this.brightmagic$asMinecraft().drawTexture(matrices, x, l, 0, 0, 182, 5);
         this.brightmagic$asMinecraft().drawTexture(matrices, x, l, 0, 5, (int) Math.max(0, Math.min(183F * ((float) currentMana / (float) maxMana), 183F)), 5);
@@ -121,7 +128,7 @@ public abstract class InGameHudMixin {
         IDataHolder dataHolder = (IDataHolder) this.getCameraPlayer();
         int currentMana = ManaData.getMana(dataHolder);
         int maxMana = ManaData.getMaxMana(dataHolder);
-        RenderSystem.setShaderTexture(0, BrightMagicTextures.ICONS);
+        RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_ICONS);
         int l = this.scaledHeight - 32 + 3;
         this.brightmagic$asMinecraft().drawTexture(matrices, x, l, 0, 0, 182, 5);
         this.brightmagic$asMinecraft().drawTexture(matrices, x, l, 0, 5, (int) Math.max(0, Math.min(183F * ((float) currentMana / (float) maxMana), 183F)), 5);
@@ -139,7 +146,7 @@ public abstract class InGameHudMixin {
     private void renderHotbar$head(float tickDelta, MatrixStack matrices, CallbackInfo ci) {
         if (this.getCameraPlayer().getStackInHand(Hand.MAIN_HAND).getItem() != BrightMagicItems.FINAL_WAND)
             return;
-        RenderSystem.setShaderTexture(0, BrightMagicTextures.ICONS);
+        RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_ICONS);
         int x = this.scaledWidth - 95 - 2;
         int y = this.scaledHeight - 26 - 2;
         this.brightmagic$asMinecraft().drawTexture(matrices, x, y, 0, 10, 95, 26);

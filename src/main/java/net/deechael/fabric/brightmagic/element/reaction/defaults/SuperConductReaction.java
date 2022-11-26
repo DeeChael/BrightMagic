@@ -10,25 +10,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class OverloadedReaction extends ElementReaction {
+public class SuperConductReaction extends ElementReaction {
 
-    public OverloadedReaction() {
-        super(Identifier.of(Constants.MOD_ID, "overloaded"), ElementType.PYRO, ElementType.ELECTRO);
+    public SuperConductReaction() {
+        super(Identifier.of(Constants.MOD_ID, "super-conduct"), ElementType.ELECTRO, ElementType.CRYO);
     }
 
     @Override
     public void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill) {
         if (skill instanceof DamageableSkill damageableSkill) {
             double damage = damageableSkill.getDamage(world, entity);
-            damageableSkill.use(world, entity, itemStack, damage * 2d);
+            damageableSkill.use(world, entity, itemStack, damage * 1.75d);
         } else {
-            entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 10);
+            entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 6);
         }
     }
 
     @Override
     public void react(World world, LivingEntity entity) {
-        entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 10);
+        entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 6);
     }
 
 }

@@ -2,7 +2,6 @@ package net.deechael.fabric.brightmagic.skill;
 
 import net.deechael.fabric.brightmagic.element.Element;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;

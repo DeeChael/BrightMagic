@@ -2,7 +2,7 @@ package net.deechael.fabric.brightmagic.element.reaction;
 
 import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.skill.Skill;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -34,8 +34,8 @@ public abstract class ElementReaction {
         return second;
     }
 
-    public abstract void react(World world, Entity entity, ItemStack itemStack, Skill skill);
+    public abstract void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill);
 
-    public abstract void react(World world, Entity entity);
+    public abstract void react(World world, LivingEntity entity);
 
 }
