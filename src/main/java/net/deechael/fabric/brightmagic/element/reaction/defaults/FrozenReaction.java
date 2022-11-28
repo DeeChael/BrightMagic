@@ -1,6 +1,7 @@
 package net.deechael.fabric.brightmagic.element.reaction.defaults;
 
 import net.deechael.fabric.brightmagic.Constants;
+import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.element.ElementType;
 import net.deechael.fabric.brightmagic.element.reaction.ElementReaction;
 import net.deechael.fabric.brightmagic.skill.Skill;
@@ -18,14 +19,14 @@ public class FrozenReaction extends ElementReaction {
     }
 
     @Override
-    public void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill) {
+    public void react(World world, LivingEntity entity, Element first, Element second, ItemStack itemStack, Skill skill) {
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 5 * 20, 255));
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 5 * 20, 255));
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 5 * 20, -128));
     }
 
     @Override
-    public void react(World world, LivingEntity entity) {
+    public void react(World world, LivingEntity entity, Element first, Element second) {
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 5 * 20, 255));
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 5 * 20, 255));
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 5 * 20, -128));

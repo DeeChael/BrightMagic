@@ -7,7 +7,7 @@
   ],
   "key": {
     "G": {
-      "tag": "minecraft:ghast_tear"
+      "item": "minecraft:ghast_tear"
     },
     "E": {
       "item": "minecraft:end_crystal"

@@ -6,6 +6,7 @@ import net.deechael.fabric.brightmagic.element.reaction.ElementReaction;
 import net.deechael.fabric.brightmagic.skill.Skill;
 import net.deechael.fabric.brightmagic.util.ElementContainer;
 import net.deechael.fabric.brightmagic.util.ListUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -29,6 +30,8 @@ public abstract class LivingEntityMixin implements ElementContainer {
 
 
     private final Map<Element, Long> elements = new HashMap<>();
+
+    private final Map<ElementReaction, Long> lastReacted = new HashMap<>();
 
     private final List<Element> toBeDeleted = new ArrayList<>();
 
@@ -60,13 +63,18 @@ public abstract class LivingEntityMixin implements ElementContainer {
         }
         List<ElementReaction> elementReactions = Element.availableReactions(element);
         boolean reacted = false;
+        long now = System.currentTimeMillis();
         for (Element e : this.elements.keySet()) {
             List<ElementReaction> bb = Element.availableReactions(e);
             List<ElementReaction> available = ListUtils.findSame(elementReactions, bb);
             if (available.isEmpty())
                 continue;
             for (ElementReaction reaction : available) {
-                reaction.react(this.getWorld$shadow(), ((LivingEntity) ((Object) this)));
+                if (this.lastReacted.containsKey(reaction))
+                    if (now - this.lastReacted.get(reaction) < reaction.getCooldown() * 1000L)
+                        continue;
+                reaction.react(this.getWorld$shadow(), ((LivingEntity) ((Object) this)), e, element);
+                this.lastReacted.put(reaction, now);
             }
             this.toBeDeleted.add(e);
             reacted = true;
@@ -77,7 +85,7 @@ public abstract class LivingEntityMixin implements ElementContainer {
             this.toBeDeleted.clear();
             return;
         }
-        this.elements.put(element, System.currentTimeMillis());
+        this.elements.put(element, now);
     }
 
     @Override
@@ -88,12 +96,17 @@ public abstract class LivingEntityMixin implements ElementContainer {
         }
         List<ElementReaction> elementReactions = Element.availableReactions(element);
         boolean reacted = false;
+        long now = System.currentTimeMillis();
         for (Element e : this.elements.keySet()) {
             List<ElementReaction> available = ListUtils.findSame(elementReactions, Element.availableReactions(e));
             if (available.isEmpty())
                 continue;
             for (ElementReaction reaction : available) {
-                reaction.react(this.getWorld$shadow(), ((LivingEntity) ((Object) this)), itemStack, skill);
+                if (this.lastReacted.containsKey(reaction))
+                    if (now - this.lastReacted.get(reaction) < reaction.getCooldown() * 1000L)
+                        continue;
+                reaction.react(this.getWorld$shadow(), ((LivingEntity) ((Object) this)), e, element, itemStack, skill);
+                this.lastReacted.put(reaction, now);
             }
             this.toBeDeleted.add(e);
             reacted = true;
@@ -104,7 +117,7 @@ public abstract class LivingEntityMixin implements ElementContainer {
             this.toBeDeleted.clear();
             return;
         }
-        this.elements.put(element, System.currentTimeMillis());
+        this.elements.put(element, now);
     }
 
     @Override
@@ -130,8 +143,11 @@ public abstract class LivingEntityMixin implements ElementContainer {
         if (this.isInLava$shadow())
             this.addElement(ElementType.PYRO);
         Vec3d vec3d = this.getPos$shadow();
-        if (this.getWorld$shadow().getBlockState(new BlockPos(vec3d.x, vec3d.y, vec3d.z)).getBlock() == Blocks.POWDER_SNOW)
+        BlockState state = this.getWorld$shadow().getBlockState(new BlockPos(vec3d.x, vec3d.y, vec3d.z));
+        if (state.getBlock() == Blocks.POWDER_SNOW)
             this.addElement(ElementType.CRYO);
+        else if (state.getBlock() == Blocks.FIRE)
+            this.addElement(ElementType.PYRO);
     }
 
     @Inject(method = "damage", at = @At("HEAD"))

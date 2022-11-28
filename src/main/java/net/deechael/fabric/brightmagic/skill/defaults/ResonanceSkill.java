@@ -32,10 +32,14 @@ public class ResonanceSkill extends Skill {
         }
         closed.forEach(player -> {
             player.heal(4f);
-            ParticleUtils.circleImportant(world, entityPos, 5, ParticleTypes.DRIPPING_WATER);
-            ParticleUtils.circleImportant(world, entityPos, 4.5, ParticleTypes.DRIPPING_WATER);
             ((ElementContainer) entity).addElement(ResonanceSkill.this.getElement(), wand, ResonanceSkill.this);
+            ParticleUtils.circleImportant(world, entityPos, 5, 10, ParticleTypes.DRIPPING_WATER);
+            ParticleUtils.circleImportant(world, entityPos, 4.5, 10, ParticleTypes.DRIPPING_WATER);
         });
+    }
+
+    @Override
+    public void render(PlayerEntity entity, World world, ItemStack hand) {
     }
 
 }

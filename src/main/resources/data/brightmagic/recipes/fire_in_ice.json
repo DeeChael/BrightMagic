@@ -7,10 +7,10 @@
   ],
   "key": {
     "O": {
-      "tag": "minecraft:obsidian"
+      "item": "minecraft:obsidian"
     },
     "B": {
-      "tag": "minecraft:blaze_powder"
+      "item": "minecraft:blaze_powder"
     },
     "I": {
       "item": "minecraft:blue_ice"

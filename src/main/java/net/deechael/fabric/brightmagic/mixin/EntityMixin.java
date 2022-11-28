@@ -1,9 +1,14 @@
 package net.deechael.fabric.brightmagic.mixin;
 
+import net.deechael.fabric.brightmagic.element.ElementType;
+import net.deechael.fabric.brightmagic.util.ElementContainer;
 import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -79,6 +84,12 @@ public abstract class EntityMixin implements IDataHolder {
             elementData.put("unlockedElements", new NbtList());
             this.elementData = elementData;
         }
+    }
+
+    @Inject(method = "onStruckByLightning", at = @At("HEAD"))
+    private void onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
+        if (((Object) this) instanceof LivingEntity)
+            ((ElementContainer) this).addElement(ElementType.ELECTRO);
     }
 
 }

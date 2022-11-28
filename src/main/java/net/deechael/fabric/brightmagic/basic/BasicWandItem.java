@@ -1,6 +1,5 @@
 package net.deechael.fabric.brightmagic.basic;
 
-
 import net.deechael.fabric.brightmagic.element.ElementData;
 import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.mana.ManaData;
@@ -49,22 +48,33 @@ public class BasicWandItem extends RangedWeaponItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (world.isClient)
-            return TypedActionResult.pass(user.getStackInHand(hand));
         if (this.limitedSkill == null)
             return TypedActionResult.pass(user.getStackInHand(hand));
-        if (!user.isCreative()) {
-            if (user.getStackInHand(hand).getItem() != this)
-                return TypedActionResult.pass(user.getStackInHand(hand));
-            if (ManaData.getMana((IDataHolder) user) < this.baseManaCost) {
-                user.sendMessage(Text.translatable("brightmagic.messages.mananotenough").formatted(Formatting.RED));
-                return TypedActionResult.fail(user.getStackInHand(hand));
+        if (world.isClient) {
+            if (!user.isCreative()) {
+                if (user.getStackInHand(hand).getItem() != this)
+                    return TypedActionResult.pass(user.getStackInHand(hand));
+                if (ManaData.getMana((IDataHolder) user) < this.baseManaCost)
+                    return TypedActionResult.pass(user.getStackInHand(hand));
+                if (this.limitedSkill.getElement() != null && !ElementData.hasUnlocked((IDataHolder) user, this.limitedSkill.getElement()))
+                    return TypedActionResult.pass(user.getStackInHand(hand));
             }
-            if (this.limitedSkill.getElement() != null && !ElementData.hasUnlocked((IDataHolder) user, this.limitedSkill.getElement())) {
-                user.sendMessage(Text.translatable("brightmagic.messages.noelement").formatted(Formatting.RED));
-                return TypedActionResult.fail(user.getStackInHand(hand));
+            this.limitedSkill.render(user, world, user.getStackInHand(hand));
+            return TypedActionResult.pass(user.getStackInHand(hand));
+        } else {
+            if (!user.isCreative()) {
+                if (user.getStackInHand(hand).getItem() != this)
+                    return TypedActionResult.pass(user.getStackInHand(hand));
+                if (ManaData.getMana((IDataHolder) user) < this.baseManaCost) {
+                    user.sendMessage(Text.translatable("brightmagic.messages.mananotenough").formatted(Formatting.RED));
+                    return TypedActionResult.fail(user.getStackInHand(hand));
+                }
+                if (this.limitedSkill.getElement() != null && !ElementData.hasUnlocked((IDataHolder) user, this.limitedSkill.getElement())) {
+                    user.sendMessage(Text.translatable("brightmagic.messages.noelement").formatted(Formatting.RED));
+                    return TypedActionResult.fail(user.getStackInHand(hand));
+                }
+                ManaData.removeMana((IDataHolder) user, baseManaCost);
             }
-            ManaData.removeMana((IDataHolder) user, baseManaCost);
         }
         user.getItemCooldownManager().set(this, this.cooldown * 20);
         this.limitedSkill.use(user, world, user.getStackInHand(hand));

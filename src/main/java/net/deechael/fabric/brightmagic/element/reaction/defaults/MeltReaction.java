@@ -1,6 +1,7 @@
 package net.deechael.fabric.brightmagic.element.reaction.defaults;
 
 import net.deechael.fabric.brightmagic.Constants;
+import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.element.ElementType;
 import net.deechael.fabric.brightmagic.element.reaction.ElementReaction;
 import net.deechael.fabric.brightmagic.skill.DamageableSkill;
@@ -17,7 +18,7 @@ public class MeltReaction extends ElementReaction {
     }
 
     @Override
-    public void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill) {
+    public void react(World world, LivingEntity entity, Element first, Element second, ItemStack itemStack, Skill skill) {
         if (skill instanceof DamageableSkill damageableSkill) {
             double damage = damageableSkill.getDamage(world, entity);
             damageableSkill.use(world, entity, itemStack, damage * 2d);
@@ -27,7 +28,7 @@ public class MeltReaction extends ElementReaction {
     }
 
     @Override
-    public void react(World world, LivingEntity entity) {
+    public void react(World world, LivingEntity entity, Element first, Element second) {
         entity.damage(ElementReaction.ELEMENT_REACTION_DAMAGE_SOURCE, 2);
     }
 

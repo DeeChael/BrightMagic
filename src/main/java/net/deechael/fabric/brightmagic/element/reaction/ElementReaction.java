@@ -34,8 +34,12 @@ public abstract class ElementReaction {
         return second;
     }
 
-    public abstract void react(World world, LivingEntity entity, ItemStack itemStack, Skill skill);
+    public int getCooldown() {
+        return 5;
+    }
 
-    public abstract void react(World world, LivingEntity entity);
+    public abstract void react(World world, LivingEntity entity, Element first, Element second, ItemStack itemStack, Skill skill);
+
+    public abstract void react(World world, LivingEntity entity, Element first, Element second);
 
 }

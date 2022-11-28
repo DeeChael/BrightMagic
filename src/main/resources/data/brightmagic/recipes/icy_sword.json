@@ -7,7 +7,7 @@
   ],
   "key": {
     "D": {
-      "tag": "minecraft:diamond"
+      "item": "minecraft:diamond"
     },
     "I": {
       "item": "minecraft:blue_ice"

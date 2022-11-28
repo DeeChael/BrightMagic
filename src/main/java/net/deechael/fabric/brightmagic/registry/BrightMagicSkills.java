@@ -6,16 +6,16 @@ import net.deechael.fabric.brightmagic.skill.defaults.ResonanceSkill;
 
 public final class BrightMagicSkills {
 
-    public final static Skill HEAL;
+    public final static Skill HEAL = register(new HealSkill());
 
-    public final static Skill RESONANCE;
-
-    static {
-        HEAL = new HealSkill();
-        RESONANCE = new ResonanceSkill();
-    }
+    public final static Skill RESONANCE = register(new ResonanceSkill());
 
     public static void init() {
+    }
+
+    private static Skill register(Skill skill) {
+        Skill.register(skill);
+        return skill;
     }
 
 }

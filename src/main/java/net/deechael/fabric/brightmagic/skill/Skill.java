@@ -1,6 +1,8 @@
 package net.deechael.fabric.brightmagic.skill;
 
 import net.deechael.fabric.brightmagic.element.Element;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -43,6 +45,19 @@ public abstract class Skill {
 
     public void use(PlayerEntity entity, World world, ItemStack wand) {
 
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void render(PlayerEntity entity, World world, ItemStack hand) {
+
+    }
+
+    public static void register(Skill skill) {
+        SkillManager.skills.put(skill.getIdentifier(), skill);
+    }
+
+    public static Skill get(Identifier identifier) {
+        return SkillManager.skills.get(identifier);
     }
 
 }
