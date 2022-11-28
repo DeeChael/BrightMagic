@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.element.ElementData;
 import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
+import net.deechael.fabric.brightmagic.skill.Skill;
 import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -33,6 +34,8 @@ public class ElementScreen extends Screen {
 
     private int page = 1;
 
+    private final List<Element> deny = new ArrayList<>();
+
     public ElementScreen(Screen parent) {
         this(parent, Text.translatable("brightmagic.gui.element.title"));
     }
@@ -46,6 +49,7 @@ public class ElementScreen extends Screen {
     protected void init() {
         this.texturedButtonWidgets.clear();
         this.elementMap.clear();
+        this.deny.clear();
 
         int left = (this.width - (16 * 7)) / 2;
         int top = (this.height - (16 * 7)) / 2;
@@ -80,7 +84,13 @@ public class ElementScreen extends Screen {
     }
 
     private TexturedButtonWidget texture(Element element, int x, int y) {
-        return new TexturedButtonWidget(x, y, 16, 16, 0, 0, 16, element.getTexture(), 16, 16, ElementScreen::doNothing);
+        return new TexturedButtonWidget(x, y, 16, 16, 0, 0, 16, element.getTexture(), 16, 16, (button -> {
+            if (this.deny.contains(element))
+                return;
+            if (Skill.getSkills(element).isEmpty())
+                return;
+            this.client.setScreen(new SkillScreen(this, element));
+        }));
     }
 
     public void close() {
@@ -96,6 +106,7 @@ public class ElementScreen extends Screen {
             if (this.client == null)
                 continue;
             if (!ElementData.isUnlocked((IDataHolder) this.client.player, element)) {
+                this.deny.add(element);
                 RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_DENY);
                 DrawableHelper.drawTexture(matrices, texturedButtonWidget.x, texturedButtonWidget.y, 0, 0, 16, 16, 16, 16);
             }
@@ -104,4 +115,5 @@ public class ElementScreen extends Screen {
         this.nextPage.render(matrices, mouseX, mouseY, delta);
         super.render(matrices, mouseX, mouseY, delta);
     }
+
 }

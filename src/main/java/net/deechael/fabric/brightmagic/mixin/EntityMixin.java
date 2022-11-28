@@ -33,11 +33,6 @@ public abstract class EntityMixin implements IDataHolder {
             manaData.putInt("mana", 100);
             manaData.putInt("maxMana", 100);
             this.manaData = manaData;
-        } else {
-            if (!manaData.contains("mana"))
-                this.manaData.putInt("mana", 100);
-            if (!manaData.contains("maxMana"))
-                this.manaData.putInt("maxMana", 100);
         }
         return this.manaData;
     }
@@ -49,13 +44,23 @@ public abstract class EntityMixin implements IDataHolder {
             elementData.putInt("unlocked", 0);
             elementData.put("unlockedElements", new NbtList());
             this.elementData = elementData;
-        } else {
-            if (!elementData.contains("unlocked"))
-                this.elementData.putInt("mana", 0);
-            if (!elementData.contains("unlockedElements"))
-                this.elementData.put("maxMana", new NbtList());
         }
         return this.elementData;
+    }
+
+    @Override
+    public NbtCompound getSkillData() {
+        if (this.skillData == null) {
+            NbtCompound skillData = new NbtCompound();
+            skillData.putString("slot_1", "null");
+            skillData.putString("slot_2", "null");
+            skillData.putString("slot_3", "null");
+            skillData.putString("slot_4", "null");
+            skillData.putInt("unlocked", 0);
+            skillData.put("skills", new NbtList());
+            this.skillData = skillData;
+        }
+        return skillData;
     }
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
@@ -63,6 +68,7 @@ public abstract class EntityMixin implements IDataHolder {
         NbtCompound brightMagicData = new NbtCompound();
         brightMagicData.put("manaData", getManaData());
         brightMagicData.put("elementData", getElementData());
+        brightMagicData.put("skillData", getSkillData());
         nbt.put("brightmagic", brightMagicData);
     }
 
@@ -74,6 +80,8 @@ public abstract class EntityMixin implements IDataHolder {
                 this.manaData = brightmagic.getCompound("manaData");
             if (brightmagic.contains("elementData"))
                 this.elementData = brightmagic.getCompound("elementData");
+            if (brightmagic.contains("skillData"))
+                this.skillData = brightmagic.getCompound("skillData");
         } else {
             NbtCompound manaData = new NbtCompound();
             manaData.putInt("mana", 100);
@@ -83,6 +91,14 @@ public abstract class EntityMixin implements IDataHolder {
             elementData.putInt("unlocked", 0);
             elementData.put("unlockedElements", new NbtList());
             this.elementData = elementData;
+            NbtCompound skillData = new NbtCompound();
+            skillData.putString("slot_1", "null");
+            skillData.putString("slot_2", "null");
+            skillData.putString("slot_3", "null");
+            skillData.putString("slot_4", "null");
+            skillData.putInt("unlocked", 0);
+            skillData.put("skills", new NbtList());
+            this.skillData = skillData;
         }
     }
 

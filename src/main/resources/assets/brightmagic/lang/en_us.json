@@ -4,6 +4,7 @@
     "brightmagic.messages.elementmaxed": "You have reached the limit of unlocking elements!",
     "brightmagic.messages.elementunlocked": "You have unlocked this element!",
     "brightmagic.messages.unlockedelement": "You unlocked element: ",
+    "brightmagic.messages.currentincd": "This skill is in cooldown now!",
 
     "item.brightmagic.healing_wand": "Healing Wand",
     "item.brightmagic.resonance_wand": "Resonance Wand",

@@ -16,8 +16,13 @@ public class HealSkill extends Skill {
 
     @Override
     public String getTranslateKey() {
-        Identifier identifier = this.getIdentifier();
+        Identifier identifier = this.getId();
         return "magic." + identifier.getNamespace() + "." + identifier.getPath();
+    }
+
+    @Override
+    public int getCd() {
+        return 5;
     }
 
     @Override

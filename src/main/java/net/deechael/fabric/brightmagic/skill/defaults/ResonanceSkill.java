@@ -23,6 +23,11 @@ public class ResonanceSkill extends Skill {
     }
 
     @Override
+    public int getCd() {
+        return 10;
+    }
+
+    @Override
     public void use(PlayerEntity entity, World world, ItemStack wand) {
         Vec3d entityPos = entity.getPos();
         List<PlayerEntity> closed = new ArrayList<>();

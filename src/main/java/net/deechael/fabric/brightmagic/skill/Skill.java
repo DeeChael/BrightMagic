@@ -7,6 +7,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Skill {
 
@@ -15,20 +19,24 @@ public abstract class Skill {
     private final int manaCost;
     private final Identifier texture;
 
-    public Skill(Identifier identifier, Element element, int manaCost, Identifier texture) {
+    public Skill(Identifier identifier, @Nullable Element element, int manaCost, Identifier texture) {
         this.identifier = identifier;
         this.element = element;
         this.manaCost = manaCost;
         this.texture = texture;
     }
 
-    public Identifier getIdentifier() {
+    public Identifier getId() {
         return identifier;
     }
 
     public String getTranslateKey() {
-        Identifier identifier = this.getIdentifier();
+        Identifier identifier = this.getId();
         return "magic." + identifier.getNamespace() + "." + identifier.getPath();
+    }
+
+    public int getCd() {
+        return 10;
     }
 
     public Element getElement() {
@@ -53,7 +61,15 @@ public abstract class Skill {
     }
 
     public static void register(Skill skill) {
-        SkillManager.skills.put(skill.getIdentifier(), skill);
+        SkillManager.skills.put(skill.getId(), skill);
+        Identifier element = skill.getElement() != null ? skill.getElement().getId() : null;
+        if (!SkillManager.elementSkillMap.containsKey(element))
+            SkillManager.elementSkillMap.put(element, new ArrayList<>());
+        SkillManager.elementSkillMap.get(element).add(skill.getId());
+    }
+
+    public static List<Skill> getSkills(@Nullable Element element) {
+        return SkillManager.elementSkillMap.get(element == null ? null : element.getId()).stream().map(Skill::get).toList();
     }
 
     public static Skill get(Identifier identifier) {
