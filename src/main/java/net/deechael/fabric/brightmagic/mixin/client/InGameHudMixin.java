@@ -5,6 +5,8 @@ import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.mana.ManaData;
 import net.deechael.fabric.brightmagic.registry.BrightMagicItems;
 import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
+import net.deechael.fabric.brightmagic.skill.Skill;
+import net.deechael.fabric.brightmagic.skill.SkillData;
 import net.deechael.fabric.brightmagic.util.ElementContainer;
 import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.fabricmc.api.EnvType;
@@ -150,6 +152,28 @@ public abstract class InGameHudMixin {
         int x = this.scaledWidth - 95 - 2;
         int y = this.scaledHeight - 26 - 2;
         this.brightmagic$asMinecraft().drawTexture(matrices, x, y, 0, 10, 95, 26);
+
+        IDataHolder dataHolder = (IDataHolder) this.getCameraPlayer();
+        Skill skill1 = SkillData.getSlot(dataHolder, 1);
+        Skill skill2 = SkillData.getSlot(dataHolder, 2);
+        Skill skill3 = SkillData.getSlot(dataHolder, 3);
+        Skill skill4 = SkillData.getSlot(dataHolder, 4);
+        if (skill1 != null) {
+            RenderSystem.setShaderTexture(0, skill1.getTexture());
+            this.brightmagic$asMinecraft().drawTexture(matrices, x + 5, y + 5, 0, 0, 16, 16);
+        }
+        if (skill2 != null) {
+            RenderSystem.setShaderTexture(0, skill2.getTexture());
+            this.brightmagic$asMinecraft().drawTexture(matrices, x + 26 + 5, y + 5, 0, 0, 16, 16);
+        }
+        if (skill3 != null) {
+            RenderSystem.setShaderTexture(0, skill3.getTexture());
+            this.brightmagic$asMinecraft().drawTexture(matrices, x + 52 + 5, y + 5, 0, 0, 16, 16);
+        }
+        if (skill4 != null) {
+            RenderSystem.setShaderTexture(0, skill4.getTexture());
+            this.brightmagic$asMinecraft().drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16);
+        }
     }
 
     @Inject(method = "renderHotbar", at = @At("TAIL"))

@@ -27,6 +27,16 @@ public class SkillData {
         NbtCompound skillData = dataHolder.getSkillData();
         skillData.putString("slot_" + slot, skill.getId().toString());
     }
+
+    public static Skill[] getSlots(IDataHolder dataHolder) {
+        Skill[] slots = new Skill[4];
+        NbtCompound skillData = dataHolder.getSkillData();
+        slots[0] = Objects.equals(skillData.getString("slot_1"), "null") ? null : Skill.get(new Identifier(skillData.getString("slot_1")));
+        slots[1] = Objects.equals(skillData.getString("slot_2"), "null") ? null : Skill.get(new Identifier(skillData.getString("slot_2")));
+        slots[2] = Objects.equals(skillData.getString("slot_3"), "null") ? null : Skill.get(new Identifier(skillData.getString("slot_3")));
+        slots[3] = Objects.equals(skillData.getString("slot_4"), "null") ? null : Skill.get(new Identifier(skillData.getString("slot_4")));
+        return slots;
+    }
     
     public static Skill[] getUnlockedSkills(IDataHolder dataHolder) {
         NbtCompound skillData = dataHolder.getSkillData();

@@ -25,6 +25,7 @@ import java.util.Map;
 public class SkillC2SPacket {
 
     public final static Identifier USE_SKILL = new Identifier(Constants.MOD_ID, "use_skill");
+    public final static Identifier SET_SLOT_SKILL = new Identifier(Constants.MOD_ID, "set_slot_skill");
 
     public static void init() {
         ClientPlayNetworking.registerGlobalReceiver(SkillS2CPacket.SKILL_UPDATE, (client, handler, buffer, responseSender) -> {
@@ -84,6 +85,26 @@ public class SkillC2SPacket {
         buf.writeByteArray(ListUtils.classToPrimitive(byteList.toArray(new Byte[0])));
         clientPlayerEntity.networkHandler
                 .sendPacket(new CustomPayloadC2SPacket(SkillC2SPacket.USE_SKILL, buf));
+    }
+
+    public static void writeC2SSetSlotSkillPacket(ClientPlayerEntity clientPlayerEntity, int slot, Skill skill) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        List<Byte> byteList = new ArrayList<>();
+        String uuid = clientPlayerEntity.getUuidAsString();
+        for (byte b : NumberUtils.intToBytes(uuid.length()))
+            byteList.add(b);
+        for (byte b : uuid.getBytes(StandardCharsets.UTF_8))
+            byteList.add(b);
+        for (byte b : NumberUtils.intToBytes(slot))
+            byteList.add(b);
+        String skillId = skill == null ? "null" : skill.getId().toString();
+        for (byte b : NumberUtils.intToBytes(skillId.length()))
+            byteList.add(b);
+        for (byte b : skillId.getBytes(StandardCharsets.UTF_8))
+            byteList.add(b);
+        buf.writeByteArray(ListUtils.classToPrimitive(byteList.toArray(new Byte[0])));
+        clientPlayerEntity.networkHandler
+                .sendPacket(new CustomPayloadC2SPacket(SkillC2SPacket.SET_SLOT_SKILL, buf));
     }
 
     private static int readInt(byte[] bytes, int startAt) {

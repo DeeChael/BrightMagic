@@ -6,6 +6,7 @@ import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
@@ -65,6 +66,8 @@ public abstract class EntityMixin implements IDataHolder {
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
     private void writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> callbackInfoReturnable) {
+        if (!(((Object) this) instanceof PlayerEntity))
+            return;
         NbtCompound brightMagicData = new NbtCompound();
         brightMagicData.put("manaData", getManaData());
         brightMagicData.put("elementData", getElementData());
@@ -74,6 +77,8 @@ public abstract class EntityMixin implements IDataHolder {
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     private void readNbt(NbtCompound nbt, CallbackInfo callbackInfo) {
+        if (!(((Object) this) instanceof PlayerEntity))
+            return;
         if (nbt.contains("brightmagic", 10)) {
             NbtCompound brightmagic = nbt.getCompound("brightmagic");
             if (brightmagic.contains("manaData"))

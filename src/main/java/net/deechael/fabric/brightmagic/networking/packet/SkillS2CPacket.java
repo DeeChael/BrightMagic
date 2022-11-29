@@ -73,6 +73,32 @@ public class SkillS2CPacket {
             lastInvoked.get(uuid).put(skill, current);
             skill.use(player, player.world, player.getStackInHand(Hand.MAIN_HAND));
         }));
+        ServerPlayNetworking.registerGlobalReceiver(SkillC2SPacket.SET_SLOT_SKILL, ((server, nothing, handler, buf, responseSender) ->  {
+            byte[] bytes = buf.readByteArray();
+            int uuidLength = readInt(bytes, 0);
+            UUID uuid = UUID.fromString(readString(bytes, 4, uuidLength));
+            if (uuid != nothing.getUuid())
+                return;
+            ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
+            if (player == null)
+                return;
+            if (player.getStackInHand(Hand.MAIN_HAND).getItem() != BrightMagicItems.FINAL_WAND)
+                return;
+            int slot = readInt(bytes, 4 + uuidLength);
+            if (slot > 4 || slot < 1)
+                return;
+            int skillLength = readInt(bytes, 4 + uuidLength + 4);
+            String skillId = readString(bytes, 4 + uuidLength + 4 + 4, skillLength);
+            if (Objects.equals(skillId, "null"))
+                SkillData.setSlot((IDataHolder) player, slot, null);
+            else {
+                Skill skill = Skill.get(new Identifier(skillId));
+                if (skill == null)
+                    return;
+                if (SkillData.isUnlocked((IDataHolder) player, skill))
+                    SkillData.setSlot((IDataHolder) player, slot, skill);
+            }
+        }));
     }
 
     public static void writeS2CSkillUpdatePacket(ServerPlayerEntity serverPlayerEntity) {

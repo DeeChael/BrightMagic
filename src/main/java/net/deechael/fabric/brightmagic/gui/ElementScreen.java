@@ -31,6 +31,7 @@ public class ElementScreen extends Screen {
 
     private ButtonWidget previousPage;
     private ButtonWidget nextPage;
+    private ButtonWidget configureButton;
 
     private int page = 1;
 
@@ -71,6 +72,9 @@ public class ElementScreen extends Screen {
         this.previousPage = this.addDrawableChild(new ButtonWidget(left, top + 96, 16, 16, Text.literal("<"), button -> {
             this.page -= 1;
             this.clearAndInit();
+        }));
+        this.configureButton = this.addDrawableChild(new ButtonWidget(left + 24, top + 96, 64, 16, Text.translatable("brightmagic.gui.element.button.configure"), button -> {
+            this.client.setScreen(new SelectSkillScreen(this));
         }));
         this.nextPage = this.addDrawableChild(new ButtonWidget(left + 96, top + 96, 16, 16, Text.literal(">"), button -> {
             this.page += 1;

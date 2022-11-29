@@ -70,7 +70,7 @@ public class SkillScreen extends Screen {
             this.texturedButtonWidgets.add(texturedButtonWidget);
             this.skillMap.put(texturedButtonWidget, skills.get(i));
         }
-        this.backButton = this.addDrawableChild(new ButtonWidget(64, 64, 16, 16, Text.literal("<"), button -> {
+        this.backButton = this.addDrawableChild(new ButtonWidget(16, 16, 16, 16, Text.literal("<"), button -> {
             this.close();
         }));
         this.previousPage = this.addDrawableChild(new ButtonWidget(left, top + 96, 16, 16, Text.literal("<"), button -> {
