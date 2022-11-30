@@ -3,6 +3,7 @@ package net.deechael.fabric.brightmagic.skill;
 import net.deechael.fabric.brightmagic.element.Element;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -51,7 +52,7 @@ public abstract class Skill {
         return texture;
     }
 
-    public void use(PlayerEntity entity, World world, ItemStack wand) {
+    public void use(LivingEntity entity, World world, ItemStack wand) {
 
     }
 

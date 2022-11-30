@@ -6,6 +6,7 @@ import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
 import net.deechael.fabric.brightmagic.skill.Skill;
 import net.deechael.fabric.brightmagic.util.ElementContainer;
 import net.deechael.fabric.brightmagic.util.ParticleUtils;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -28,7 +29,7 @@ public class ResonanceSkill extends Skill {
     }
 
     @Override
-    public void use(PlayerEntity entity, World world, ItemStack wand) {
+    public void use(LivingEntity entity, World world, ItemStack wand) {
         Vec3d entityPos = entity.getPos();
         List<PlayerEntity> closed = new ArrayList<>();
         for (PlayerEntity player : world.getPlayers()) {

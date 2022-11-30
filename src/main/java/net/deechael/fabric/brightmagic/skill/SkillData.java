@@ -25,7 +25,7 @@ public class SkillData {
         if (!(slot <= 4 && slot >= 1))
             return;
         NbtCompound skillData = dataHolder.getSkillData();
-        skillData.putString("slot_" + slot, skill.getId().toString());
+        skillData.putString("slot_" + slot, skill == null ? "null" : skill.getId().toString());
     }
 
     public static Skill[] getSlots(IDataHolder dataHolder) {

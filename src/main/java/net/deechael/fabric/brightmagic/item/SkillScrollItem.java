@@ -1,11 +1,14 @@
-package net.deechael.fabric.brightmagic.basic;
+package net.deechael.fabric.brightmagic.item;
 
+import net.deechael.fabric.brightmagic.registry.BrightMagicItems;
+import net.deechael.fabric.brightmagic.registry.BrightMagicSkills;
 import net.deechael.fabric.brightmagic.skill.Skill;
 import net.deechael.fabric.brightmagic.skill.SkillData;
 import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -15,6 +18,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,6 +92,25 @@ public class SkillScrollItem extends Item {
         MutableText base = Text.translatable("brightmagic.lore.skillscroller").formatted(Formatting.YELLOW);
         base.append(Text.translatable(skill.getTranslateKey()).formatted(color));
         tooltip.add(base);
+    }
+
+    @Override
+    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
+        if (group == ItemGroup.COMBAT) {
+            for (Skill skill : BrightMagicSkills.getAll())
+                stacks.add(createStackWithSkill(skill.getId().toString()));
+        }
+    }
+
+    private static ItemStack createStackWithSkill(String skill) {
+        ItemStack itemStack = new ItemStack(BrightMagicItems.SKILL_SCROLL);
+        NbtCompound nbtCompound = new NbtCompound();
+        NbtCompound brightMagic = new NbtCompound();
+        brightMagic.putString("item-type", "skill_scroll");
+        brightMagic.putString("skill", skill);
+        nbtCompound.put("brightmagic", brightMagic);
+        itemStack.setNbt(nbtCompound);
+        return itemStack;
     }
 
 }

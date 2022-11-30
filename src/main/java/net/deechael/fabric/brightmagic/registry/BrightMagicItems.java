@@ -1,32 +1,29 @@
 package net.deechael.fabric.brightmagic.registry;
 
 import net.deechael.fabric.brightmagic.Constants;
-import net.deechael.fabric.brightmagic.basic.BasicWandItem;
-import net.deechael.fabric.brightmagic.basic.ElementUnlockItem;
-import net.deechael.fabric.brightmagic.basic.SkillScrollItem;
+import net.deechael.fabric.brightmagic.item.SkilledWandItem;
+import net.deechael.fabric.brightmagic.item.ElementUnlockItem;
+import net.deechael.fabric.brightmagic.item.SkillScrollItem;
+import net.deechael.fabric.brightmagic.item.UltimateWandItem;
 import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.element.ElementType;
-import net.deechael.fabric.brightmagic.skill.Skill;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 
 public final class BrightMagicItems {
 
     // Limited Skill
     // None Element
-    public final static Item HEALING_WAND = register("healing_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[0], BrightMagicSkills.HEAL, 10, 5, 0));
+    public final static Item HEALING_WAND = register("healing_wand", new SkilledWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[0], BrightMagicSkills.HEAL, 5, 0));
 
     // Hydro Element
-    public final static Item RESONANCE_WAND = register("resonance_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[] {ElementType.HYDRO}, BrightMagicSkills.RESONANCE, 20, 10, 5));
+    public final static Item RESONANCE_WAND = register("resonance_wand", new SkilledWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), new Element[] {ElementType.HYDRO}, BrightMagicSkills.RESONANCE, 10, 5));
 
 
     // Skill unlimited
-    public final static Item FINAL_WAND = register("final_wand", new BasicWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT), Element.getAll(), null, -1, -1, 35));
+    public final static Item FINAL_WAND = register("final_wand", new UltimateWandItem(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT)));
 
 
     // Items to unlock elements
@@ -38,21 +35,6 @@ public final class BrightMagicItems {
     public final static Item SKILL_SCROLL = register("skill_scroll", new SkillScrollItem(new Item.Settings().maxCount(1)));
 
     public static void init() {
-        DefaultedList<ItemStack> list = DefaultedList.of();
-        for (Skill skill : BrightMagicSkills.getAll())
-            list.add(createStackWithSkill(skill.getId().toString()));
-        ItemGroup.COMBAT.appendStacks(list);
-    }
-
-    private static ItemStack createStackWithSkill(String skill) {
-        ItemStack itemStack = new ItemStack(SKILL_SCROLL);
-        NbtCompound nbtCompound = new NbtCompound();
-        NbtCompound brightMagic = new NbtCompound();
-        brightMagic.putString("item-type", "skill_scroll");
-        brightMagic.putString("skill", skill);
-        nbtCompound.put("brightmagic", brightMagic);
-        itemStack.setNbt(nbtCompound);
-        return itemStack;
     }
 
     private static Item register(String id, Item entry) {

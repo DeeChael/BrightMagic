@@ -4,6 +4,7 @@ import net.deechael.fabric.brightmagic.element.ElementData;
 import net.deechael.fabric.brightmagic.mana.ManaData;
 import net.deechael.fabric.brightmagic.networking.packet.ElementS2CPacket;
 import net.deechael.fabric.brightmagic.networking.packet.ManaS2CPacket;
+import net.deechael.fabric.brightmagic.networking.packet.SkillS2CPacket;
 import net.deechael.fabric.brightmagic.util.IDataHolder;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -32,6 +33,7 @@ public class ServerPlayerEntityMixin {
         }
         ElementS2CPacket.writeS2CElementUpdatePacket((ServerPlayerEntity) (Object) this);
         ElementS2CPacket.writeS2CElementOnBodyUpdatePacket((ServerPlayerEntity) (Object) this);
+        SkillS2CPacket.writeS2CSkillUpdatePacket((ServerPlayerEntity) (Object) this);
     }
 
     @Inject(method = "copyFrom(Lnet/minecraft/server/network/ServerPlayerEntity;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;setHealth(F)V"))

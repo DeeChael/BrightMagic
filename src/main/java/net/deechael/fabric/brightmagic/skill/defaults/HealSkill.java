@@ -3,7 +3,7 @@ package net.deechael.fabric.brightmagic.skill.defaults;
 import net.deechael.fabric.brightmagic.Constants;
 import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
 import net.deechael.fabric.brightmagic.skill.Skill;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public class HealSkill extends Skill {
     }
 
     @Override
-    public void use(PlayerEntity entity, World world, ItemStack wand) {
+    public void use(LivingEntity entity, World world, ItemStack wand) {
         entity.heal(2f);
     }
 

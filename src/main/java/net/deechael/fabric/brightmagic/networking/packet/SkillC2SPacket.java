@@ -34,12 +34,9 @@ public class SkillC2SPacket {
             client.execute(() -> {
                 if (client.player.world.getEntityById(entityId) != null) {
                     IDataHolder dataHolder = (IDataHolder) client.player.world.getEntityById(entityId);
-                    int times = 0;
                     int lastIndex = 4;
                     Map<Integer, Skill> slots = new HashMap<>();
-                    for (int i = 4; i < bytes.length; i++) {
-                        if (times == 4)
-                            break;
+                    for (int i = 4, times = 0; i < bytes.length && times < 4; times++) {
                         int length = readInt(bytes, i);
                         String id = readString(bytes, i + 4, length);
                         if (id.equals("null")) {
@@ -47,9 +44,7 @@ public class SkillC2SPacket {
                         } else {
                             slots.put(times, Skill.get(new Identifier(id)));
                         }
-                        i += 4 + length;
-                        lastIndex = i;
-                        times++;
+                        lastIndex = i = i + 4 + length;
                     }
                     for (int i = 0; i < 4; i++) {
                         SkillData.setSlot(dataHolder, i + 1, slots.get(i));

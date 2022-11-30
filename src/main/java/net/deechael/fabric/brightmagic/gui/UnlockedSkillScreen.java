@@ -100,6 +100,7 @@ public class UnlockedSkillScreen extends Screen {
     private TexturedButtonWidget texture(Skill skill, int x, int y) {
         return new TexturedButtonWidget(x, y, 16, 16, 0, 0, 16, skill.getTexture(), 16, 16, (button -> {
             SkillC2SPacket.writeC2SSetSlotSkillPacket(this.client.player, slot, skill);
+            SkillData.setSlot((IDataHolder) this.client.player, slot, skill);
             this.close();
         }));
     }

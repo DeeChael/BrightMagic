@@ -1,19 +1,9 @@
-package net.deechael.fabric.brightmagic.basic;
+package net.deechael.fabric.brightmagic.item;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.deechael.fabric.brightmagic.element.Element;
 import net.deechael.fabric.brightmagic.element.ElementData;
 import net.deechael.fabric.brightmagic.util.IDataHolder;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

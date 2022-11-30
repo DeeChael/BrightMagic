@@ -56,17 +56,40 @@ public class SelectSkillScreen extends Screen {
 
     private TexturedButtonWidget texture(Skill skill, int x, int y, int slot) {
         return new TexturedButtonWidget(x, y, 16, 16, 0, 0, 16, skill.getTexture(), 16, 16, (button -> {
-            if (!hasShiftDown()) {
-                this.client.setScreen(new UnlockedSkillScreen(this, slot));
-            } else {
-                SkillC2SPacket.writeC2SSetSlotSkillPacket(this.client.player, slot, null);
-                this.clearAndInit();
-            }
         }));
     }
 
     private TexturedButtonWidget texture(int x, int y, int slot) {
-        return new TexturedButtonWidget(x, y, 16, 16, 0, 0, 16, BrightMagicTextures.GUI_DENY, 16, 16, (button -> this.client.setScreen(new UnlockedSkillScreen(this, slot))));
+        return new TexturedButtonWidget(x, y, 16, 16, 0, 0, 16, BrightMagicTextures.GUI_DENY, 16, 16, SelectSkillScreen::doNothing);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int left = (this.width - (26 * 7)) / 2;
+        int top = (this.height - 26) / 2;
+        if (isIn(left + 5, top + 5, left + 5 + 26, top + 5 + 26, mouseX, mouseY))
+            return invokeSlot(1);
+        else if (isIn(left + 5 + 52, top + 5, left + 5 + 52 + 26, top + 5 + 26, mouseX, mouseY))
+            return invokeSlot(2);
+        else if (isIn(left + 5 + 104, top + 5, left + 5 + 104 + 26, top + 5 + 26, mouseX, mouseY))
+            return invokeSlot(3);
+        else if (isIn(left + 5 + 156, top + 5, left + 5 + 156 + 26, top + 5 + 26, mouseX, mouseY))
+            return invokeSlot(4);
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private boolean invokeSlot(int slot) {
+        if (!hasShiftDown()) {
+            this.client.setScreen(new UnlockedSkillScreen(this, slot));
+        } else {
+            SkillC2SPacket.writeC2SSetSlotSkillPacket(this.client.player, slot, null);
+            this.clearAndInit();
+        }
+        return true;
+    }
+
+    private boolean isIn(double startX, double startY, double endX, double endY, double mouseX, double mouseY) {
+        return mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY;
     }
 
     @Override

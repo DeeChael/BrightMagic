@@ -1,4 +1,4 @@
-package net.deechael.fabric.brightmagic.basic;
+package net.deechael.fabric.brightmagic.item;
 
 import net.deechael.fabric.brightmagic.element.ElementData;
 import net.deechael.fabric.brightmagic.element.Element;
@@ -22,26 +22,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class BasicWandItem extends RangedWeaponItem {
+public class SkilledWandItem extends RangedWeaponItem {
 
     private final int range;
-    private final int baseManaCost;
     private final int cooldown;
 
     private final Element[] allowedElements;
 
     private final Skill limitedSkill;
 
-    public BasicWandItem(Settings settings,
-                         Element[] allowedElements,
-                         Skill limitedSkill,
-                         int baseManaCost,
-                         int cooldown,
-                         int range) {
+    public SkilledWandItem(Settings settings,
+                           Element[] allowedElements,
+                           Skill limitedSkill,
+                           int cooldown,
+                           int range) {
         super(settings);
         this.allowedElements = allowedElements;
         this.limitedSkill = limitedSkill;
-        this.baseManaCost = baseManaCost;
         this.cooldown = cooldown;
         this.range = range;
     }
@@ -54,7 +51,7 @@ public class BasicWandItem extends RangedWeaponItem {
             if (!user.isCreative()) {
                 if (user.getStackInHand(hand).getItem() != this)
                     return TypedActionResult.pass(user.getStackInHand(hand));
-                if (ManaData.getMana((IDataHolder) user) < this.baseManaCost)
+                if (ManaData.getMana((IDataHolder) user) < this.limitedSkill.getManaCost())
                     return TypedActionResult.pass(user.getStackInHand(hand));
                 if (this.limitedSkill.getElement() != null && !ElementData.hasUnlocked((IDataHolder) user, this.limitedSkill.getElement()))
                     return TypedActionResult.pass(user.getStackInHand(hand));
@@ -65,7 +62,7 @@ public class BasicWandItem extends RangedWeaponItem {
             if (!user.isCreative()) {
                 if (user.getStackInHand(hand).getItem() != this)
                     return TypedActionResult.pass(user.getStackInHand(hand));
-                if (ManaData.getMana((IDataHolder) user) < this.baseManaCost) {
+                if (ManaData.getMana((IDataHolder) user) < this.limitedSkill.getManaCost()) {
                     user.sendMessage(Text.translatable("brightmagic.messages.mananotenough").formatted(Formatting.RED));
                     return TypedActionResult.fail(user.getStackInHand(hand));
                 }
@@ -73,7 +70,7 @@ public class BasicWandItem extends RangedWeaponItem {
                     user.sendMessage(Text.translatable("brightmagic.messages.noelement").formatted(Formatting.RED));
                     return TypedActionResult.fail(user.getStackInHand(hand));
                 }
-                ManaData.removeMana((IDataHolder) user, baseManaCost);
+                ManaData.removeMana((IDataHolder) user, this.limitedSkill.getManaCost());
             }
         }
         user.getItemCooldownManager().set(this, this.cooldown * 20);
