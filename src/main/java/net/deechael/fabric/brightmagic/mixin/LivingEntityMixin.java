@@ -57,6 +57,8 @@ public abstract class LivingEntityMixin implements ElementContainer {
 
     @Override
     public void addElement(Element element) {
+        if (this.getWorld$shadow().isClient)
+            return;
         if (this.elements.containsKey(element) || this.elements.isEmpty()) {
             this.elements.put(element, System.currentTimeMillis());
             return;
@@ -90,6 +92,8 @@ public abstract class LivingEntityMixin implements ElementContainer {
 
     @Override
     public void addElement(Element element, ItemStack itemStack, Skill skill) {
+        if (this.getWorld$shadow().isClient)
+            return;
         if (this.elements.containsKey(element) || this.elements.isEmpty()) {
             this.elements.put(element, System.currentTimeMillis());
             return;
@@ -131,6 +135,8 @@ public abstract class LivingEntityMixin implements ElementContainer {
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
+        if (this.getWorld$shadow().isClient)
+            return;
         long current = System.currentTimeMillis();
         this.elements.forEach((element, time) -> {
             if (current - time > 15 * 1000L)
@@ -152,6 +158,8 @@ public abstract class LivingEntityMixin implements ElementContainer {
 
     @Inject(method = "damage", at = @At("HEAD"))
     private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (this.getWorld$shadow().isClient)
+            return;
         if (source.isFire())
             this.addElement(ElementType.PYRO);
         else if (source.isExplosive())

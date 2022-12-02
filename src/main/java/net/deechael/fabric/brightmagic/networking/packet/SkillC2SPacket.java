@@ -70,11 +70,6 @@ public class SkillC2SPacket {
     public static void writeC2SUseSkillPacket(ClientPlayerEntity clientPlayerEntity, int slot) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         List<Byte> byteList = new ArrayList<>();
-        String uuid = clientPlayerEntity.getUuidAsString();
-        for (byte b : NumberUtils.intToBytes(uuid.length()))
-            byteList.add(b);
-        for (byte b : uuid.getBytes(StandardCharsets.UTF_8))
-            byteList.add(b);
         for (byte b : NumberUtils.intToBytes(slot))
             byteList.add(b);
         buf.writeByteArray(ListUtils.classToPrimitive(byteList.toArray(new Byte[0])));
@@ -85,11 +80,6 @@ public class SkillC2SPacket {
     public static void writeC2SSetSlotSkillPacket(ClientPlayerEntity clientPlayerEntity, int slot, Skill skill) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         List<Byte> byteList = new ArrayList<>();
-        String uuid = clientPlayerEntity.getUuidAsString();
-        for (byte b : NumberUtils.intToBytes(uuid.length()))
-            byteList.add(b);
-        for (byte b : uuid.getBytes(StandardCharsets.UTF_8))
-            byteList.add(b);
         for (byte b : NumberUtils.intToBytes(slot))
             byteList.add(b);
         String skillId = skill == null ? "null" : skill.getId().toString();

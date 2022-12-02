@@ -109,6 +109,8 @@ public abstract class EntityMixin implements IDataHolder {
 
     @Inject(method = "onStruckByLightning", at = @At("HEAD"))
     private void onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
+        if (this.getWorld().isClient)
+            return;
         if (((Object) this) instanceof LivingEntity)
             ((ElementContainer) this).addElement(ElementType.ELECTRO);
     }

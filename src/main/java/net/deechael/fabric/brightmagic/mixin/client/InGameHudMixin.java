@@ -1,9 +1,11 @@
 package net.deechael.fabric.brightmagic.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.deechael.fabric.brightmagic.client.SkillCooldownHelper;
 import net.deechael.fabric.brightmagic.element.Element;
+import net.deechael.fabric.brightmagic.element.ElementData;
+import net.deechael.fabric.brightmagic.item.UltimateWandItem;
 import net.deechael.fabric.brightmagic.mana.ManaData;
-import net.deechael.fabric.brightmagic.registry.BrightMagicItems;
 import net.deechael.fabric.brightmagic.registry.client.BrightMagicTextures;
 import net.deechael.fabric.brightmagic.skill.Skill;
 import net.deechael.fabric.brightmagic.skill.SkillData;
@@ -16,6 +18,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.awt.*;
 import java.util.List;
 
 @Mixin(InGameHud.class)
@@ -146,7 +150,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderHotbar", at = @At("HEAD"))
     private void renderHotbar$head(float tickDelta, MatrixStack matrices, CallbackInfo ci) {
-        if (this.getCameraPlayer().getStackInHand(Hand.MAIN_HAND).getItem() != BrightMagicItems.FINAL_WAND)
+        if (!(this.getCameraPlayer().getStackInHand(Hand.MAIN_HAND).getItem() instanceof UltimateWandItem))
             return;
         RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_ICONS);
         int x = this.scaledWidth - 95 - 2;
@@ -160,19 +164,59 @@ public abstract class InGameHudMixin {
         Skill skill4 = SkillData.getSlot(dataHolder, 4);
         if (skill1 != null) {
             RenderSystem.setShaderTexture(0, skill1.getTexture());
-            this.brightmagic$asMinecraft().drawTexture(matrices, x + 5, y + 5, 0, 0, 16, 16);
+            DrawableHelper.drawTexture(matrices, x + 5, y + 5, 0, 0, 16, 16, 16, 16);
+            int cd = SkillCooldownHelper.getCd(skill1);
+            if (cd != 0) {
+                this.getTextRenderer().draw(matrices, Text.literal("" + cd), x + 5 + 2, y + 5 + 2, Color.WHITE.getRGB());
+            }
+            if (skill1.getElement() != null) {
+                if (!ElementData.isUnlocked((IDataHolder) this.getCameraPlayer(), skill1.getElement())) {
+                    RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_DENY);
+                    DrawableHelper.drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+                }
+            }
         }
         if (skill2 != null) {
             RenderSystem.setShaderTexture(0, skill2.getTexture());
-            this.brightmagic$asMinecraft().drawTexture(matrices, x + 26 + 5, y + 5, 0, 0, 16, 16);
+            DrawableHelper.drawTexture(matrices, x + 26 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+            int cd = SkillCooldownHelper.getCd(skill2);
+            if (cd != 0) {
+                this.getTextRenderer().draw(matrices, Text.literal("" + cd), x + 26 + 5 + 2, y + 5 + 2, Color.WHITE.getRGB());
+            }
+            if (skill2.getElement() != null) {
+                if (!ElementData.isUnlocked((IDataHolder) this.getCameraPlayer(), skill2.getElement())) {
+                    RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_DENY);
+                    DrawableHelper.drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+                }
+            }
         }
         if (skill3 != null) {
             RenderSystem.setShaderTexture(0, skill3.getTexture());
-            this.brightmagic$asMinecraft().drawTexture(matrices, x + 52 + 5, y + 5, 0, 0, 16, 16);
+            DrawableHelper.drawTexture(matrices, x + 52 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+            int cd = SkillCooldownHelper.getCd(skill3);
+            if (cd != 0) {
+                this.getTextRenderer().draw(matrices, Text.literal("" + cd), x + 52 + 5 + 2, y + 5 + 2, Color.WHITE.getRGB());
+            }
+            if (skill3.getElement() != null) {
+                if (!ElementData.isUnlocked((IDataHolder) this.getCameraPlayer(), skill3.getElement())) {
+                    RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_DENY);
+                    DrawableHelper.drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+                }
+            }
         }
         if (skill4 != null) {
             RenderSystem.setShaderTexture(0, skill4.getTexture());
-            this.brightmagic$asMinecraft().drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16);
+            DrawableHelper.drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+            int cd = SkillCooldownHelper.getCd(skill4);
+            if (cd != 0) {
+                this.getTextRenderer().draw(matrices, Text.literal("" + cd), x + 78 + 5 + 2, y + 5 + 2, Color.WHITE.getRGB());
+            }
+            if (skill4.getElement() != null) {
+                if (!ElementData.isUnlocked((IDataHolder) this.getCameraPlayer(), skill4.getElement())) {
+                    RenderSystem.setShaderTexture(0, BrightMagicTextures.GUI_DENY);
+                    DrawableHelper.drawTexture(matrices, x + 78 + 5, y + 5, 0, 0, 16, 16, 16, 16);
+                }
+            }
         }
     }
 

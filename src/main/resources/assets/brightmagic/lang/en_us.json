@@ -39,5 +39,9 @@
     "magic.element.brightmagic.dark": "Dark",
 
     "category.brightmagic": "Bright Magic",
-    "key.brightmagic.openElements": "Open Elements GUI"
+    "key.brightmagic.openElements": "Open Elements GUI",
+    "key.brightmagic.skill_1": "Use Skill 1",
+    "key.brightmagic.skill_2": "Use Skill 2",
+    "key.brightmagic.skill_3": "Use Skill 3",
+    "key.brightmagic.skill_4": "Use Skill 4"
 }

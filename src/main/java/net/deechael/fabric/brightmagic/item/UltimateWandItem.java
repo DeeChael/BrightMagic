@@ -24,7 +24,7 @@ public class UltimateWandItem extends RangedWeaponItem {
 
     public void use(World world, LivingEntity entity, ItemStack stack, Skill skill) {
         if (entity instanceof PlayerEntity player && !player.isCreative()) {
-            if (player.getStackInHand(Hand.MAIN_HAND).getItem() != BrightMagicItems.FINAL_WAND)
+            if (!(player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof UltimateWandItem))
                 return;
             if (ManaData.getMana((IDataHolder) player) < skill.getManaCost()) {
                 player.sendMessage(Text.translatable("brightmagic.messages.mananotenough").formatted(Formatting.RED));

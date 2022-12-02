@@ -2,6 +2,7 @@ package net.deechael.fabric.brightmagic.networking.packet;
 
 import io.netty.buffer.Unpooled;
 import net.deechael.fabric.brightmagic.Constants;
+import net.deechael.fabric.brightmagic.element.ElementData;
 import net.deechael.fabric.brightmagic.item.UltimateWandItem;
 import net.deechael.fabric.brightmagic.registry.BrightMagicItems;
 import net.deechael.fabric.brightmagic.skill.Skill;
@@ -29,24 +30,21 @@ public class SkillS2CPacket {
     private final static Map<UUID, Map<Skill, Long>> lastInvoked = new HashMap<>();
 
     public static void init() {
-        ServerPlayNetworking.registerGlobalReceiver(SkillC2SPacket.USE_SKILL, ((server, nothing, handler, buf, responseSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(SkillC2SPacket.USE_SKILL, ((server, player, handler, buf, responseSender) -> {
             byte[] bytes = buf.readByteArray();
-            int uuidLength = readInt(bytes, 0);
-            UUID uuid = UUID.fromString(readString(bytes, 4, uuidLength));
-            if (uuid != nothing.getUuid())
-                return;
-            ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
-            if (player == null)
-                return;
+            UUID uuid = player.getUuid();
             ItemStack inHand = player.getStackInHand(Hand.MAIN_HAND);
             if (!(inHand.getItem() instanceof UltimateWandItem))
                 return;
-            int slot = readInt(bytes, 4 + uuidLength);
+            int slot = readInt(bytes, 0);
             if (slot > 4 || slot < 1)
                 return;
             Skill skill = SkillData.getSlot((IDataHolder) player, slot);
             if (skill == null)
                 return;
+            if (skill.getElement() != null)
+                if (!ElementData.isUnlocked((IDataHolder) player, skill.getElement()))
+                    return;
             long current = System.currentTimeMillis();
             if (!lastInvoked.containsKey(uuid))
                 lastInvoked.put(uuid, new HashMap<>());
@@ -59,20 +57,13 @@ public class SkillS2CPacket {
             lastInvoked.get(uuid).put(skill, current);
             ((UltimateWandItem) inHand.getItem()).use(player.world, player, inHand, skill);
         }));
-        ServerPlayNetworking.registerGlobalReceiver(SkillC2SPacket.SET_SLOT_SKILL, ((server, nothing, handler, buf, responseSender) ->  {
+        ServerPlayNetworking.registerGlobalReceiver(SkillC2SPacket.SET_SLOT_SKILL, ((server, player, handler, buf, responseSender) ->  {
             byte[] bytes = buf.readByteArray();
-            int uuidLength = readInt(bytes, 0);
-            UUID uuid = UUID.fromString(readString(bytes, 4, uuidLength));
-            if (uuid != nothing.getUuid())
-                return;
-            ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
-            if (player == null)
-                return;
-            int slot = readInt(bytes, 4 + uuidLength);
+            int slot = readInt(bytes, 0);
             if (slot > 4 || slot < 1)
                 return;
-            int skillLength = readInt(bytes, 4 + uuidLength + 4);
-            String skillId = readString(bytes, 4 + uuidLength + 4 + 4, skillLength);
+            int skillLength = readInt(bytes, 4);
+            String skillId = readString(bytes, 4 + 4, skillLength);
             if (Objects.equals(skillId, "null"))
                 SkillData.setSlot((IDataHolder) player, slot, null);
             else {
